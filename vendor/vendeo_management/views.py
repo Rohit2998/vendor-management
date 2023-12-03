@@ -115,7 +115,17 @@ class PurchasedOrderAPIView(APIView):
             instance = PurchasedOrder.objects.get(id=pk)
         except PurchasedOrder.DoesNotExist:
             return Response({"error": "Object does not exist"}, status=status.HTTP_404_NOT_FOUND)
-        instance.vendor_name=request.data.get('vendor_name')
+        instance.po_number=request.data.get('po_number')
+        vendor = request.data.get('vendor')
+        vendor_change = Vendor.objects.get(id=vendor)
+        instance.vendor=vendor_change
+        instance.order_date=request.data.get('order_date')
+        instance.delivery_date=request.data.get('delivery_date')
+        instance.quantity=request.data.get('quantity')
+        instance.quality_rating=request.data.get('quality_rating')
+        instance.issue_date=request.data.get('issue_date')
+        instance.acknowledgment_date=request.data.get('acknowledgment_date')
+
         instance.save()            
         data={'message':'update successfully'}
         return Response(data, status=status.HTTP_201_CREATED)
