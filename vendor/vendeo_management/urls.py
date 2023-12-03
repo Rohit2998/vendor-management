@@ -3,8 +3,11 @@ from . import views
 
 app_name='vendeo_managememnt'
 urlpatterns = [
-    path('ind/', views.index, name='index'),
-    path('ind2/', views.index2, name='index'),
-    path('vendor', views.VendorAPIView.as_view(),name='vendor')
+    path('vendor', views.VendorAPIView.as_view(),name='vendor'),
+    path('vendor/<int:pk>/', views.VendorAPIView.as_view(), name='vendor-update'),
+    path('vendor/<int:pk>/',  views.VendorAPIView.as_view(), name='vendor-delete'),
+    path('purchase_orders/', views.PurchasedOrderAPIView.as_view(),name='purchase'),
+    path('purchase_orders/<int:pk>/', views.PurchasedOrderAPIView.as_view(), name='purchase_orders-update'),
+
 
 ]
