@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from .serializers import VendorSerializer
-from .models import Vendor, PurchasedOrder
+from .models import Vendor, PurchasedOrder , HistoricalPerformance
 from django.http import JsonResponse
 from .serializers import VendorSerializer, PurchasedOrderSerializer
 import datetime
