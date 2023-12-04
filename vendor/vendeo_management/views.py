@@ -7,30 +7,39 @@ from .serializers import VendorSerializer
 from .models import Vendor , PurchasedOrder
 from django.http import JsonResponse
 from .serializers import VendorSerializer , PurchasedOrderSerializer
-
+import datetime
+from rest_framework.decorators import api_view
 
 class VendorAPIView(APIView):
     def get(self, request):
-        # import ipdb;ipdb.set_trace()
         queryset=Vendor.objects.filter()
         vendor_id = request.GET.get('id')
         serializer = VendorSerializer(queryset, many=True)
+        all_vendors =  list(Vendor.objects.values_list('id', flat=True))
+        all_purchased = PurchasedOrder.objects.filter()
+        for i in all_vendors:
+            all_purchased.filter(vendor=i)
+            total = all_purchased.count()
+            completed = all_purchased.filter(status = 'completed').count()
+            fulfill =  completed /total
+            Vendor.objects.filter(id  = i ).update(fulfillment_rate = fulfill*100)
         if vendor_id is not None:
             queryset=Vendor.objects.filter(id=int(vendor_id))
             serializer = VendorSerializer(queryset, many=True)
+
             serialized_data = serializer.data
+
             return JsonResponse(data =serialized_data,status =200,safe = False)
+        
         serialized_data = serializer.data
         return JsonResponse(data =serialized_data,status =200,safe = False)
     
     def post(self, request):
-        # import ipdb;ipdb.set_trace()
         serializer = VendorSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()  # Save the validated data to create a new instance
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        # return Response( data= {"message":"vendor created"})
 
     def put(self,request,pk=None):
         try:
@@ -52,35 +61,6 @@ class VendorAPIView(APIView):
         return Response({"message": "Object deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
 
 
-
-    
-# POST /api/vendors/: Create a new vendor.
-# ● GET /api/vendors/: List all vendors. done
-# ● GET /api/vendors/{vendor_id}/: Retrieve a specific vendor's details. done
-# ● PUT /api/vendors/{vendor_id}/: Update a vendor's details. done 
-# ● DELETE /api/vendors/{vendor_id}/: Delete a vendor.
-
-
-# 1. Vendor Profile Management:
-# ● Model Design: Create a model to store vendor information including name, contact
-# details, address, and a unique vendor code.
-# ● API Endpoints:
-# ● POST /api/vendors/: Create a new vendor.
-# ● GET /api/vendors/: List all vendors.
-# ● GET /api/vendors/{vendor_id}/: Retrieve a specific vendor's details.
-# ● PUT /api/vendors/{vendor_id}/: Update a vendor's details.
-# ● DELETE /api/vendors/{vendor_id}/: Delete a vendor.
-
-
-# 2. Purchase Order Tracking:
-
-# ● API Endpoints:
-# ● POST /api/purchase_orders/: Create a purchase order.
-# ● GET /api/purchase_orders/: List all purchase orders with an option to filter by
-# vendor.
-# ● GET /api/purchase_orders/{po_id}/: Retrieve details of a specific purchase order.
-# ● PUT /api/purchase_orders/{po_id}/: Update a purchase order.
-# ● DELETE /api/purchase_orders/{po_id}/: Delete a purchase order.
 
 
 class PurchasedOrderAPIView(APIView):
@@ -115,16 +95,32 @@ class PurchasedOrderAPIView(APIView):
             instance = PurchasedOrder.objects.get(id=pk)
         except PurchasedOrder.DoesNotExist:
             return Response({"error": "Object does not exist"}, status=status.HTTP_404_NOT_FOUND)
-        instance.po_number=request.data.get('po_number')
+
+
+        today_date = datetime.date.today()
         vendor = request.data.get('vendor')
-        vendor_change = Vendor.objects.get(id=vendor)
+        try:
+            vendor_change = Vendor.objects.get(id=vendor)
+        except Vendor.DoesNotExist:
+            data={'message':'invalid vendor'}
+            return Response(data, status=404)
+
+
         instance.vendor=vendor_change
         instance.order_date=request.data.get('order_date')
         instance.delivery_date=request.data.get('delivery_date')
         instance.quantity=request.data.get('quantity')
         instance.quality_rating=request.data.get('quality_rating')
-        instance.issue_date=request.data.get('issue_date')
+        instance.delivered_date = today_date
+        deleiver_date  = datetime.datetime.strptime(instance.delivery_date , '%Y-%m-%d')
+
+        if today_date <= deleiver_date.date() and instance.status == 'completed':
+            instance.on_time = True
         instance.acknowledgment_date=request.data.get('acknowledgment_date')
+
+        if request.data.get('status'):
+            instance.status = request.data.get('status')
+            print('')
 
         instance.save()            
         data={'message':'update successfully'}
@@ -132,11 +128,29 @@ class PurchasedOrderAPIView(APIView):
 
     def delete(self, request, pk): 
         try:
-            instance = Vendor.objects.get(pk=pk)
-        except Vendor.DoesNotExist:
+            instance = PurchasedOrder.objects.get(pk=pk)
+        except PurchasedOrder.DoesNotExist:
             return Response({"error": "Object does not exist"}, status=status.HTTP_404_NOT_FOUND)
 
         instance.delete()
         return Response({"message": "Object deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['POST'])  # Specify the HTTP methods this view can handle
+def order_acknowledge(request ,pk=None):
+    if request.method == 'POST':        
+        acknowledgment_date = request.data.get('acknowledge_date')
+        issue_date = PurchasedOrder.objects.filter(id=pk)[0].issue_date
+
+        if pk:
+            ack_date =  datetime.datetime.strptime(acknowledgment_date , "%Y-%m-%dT%H:%M:%S")
+            issue_date =  datetime.datetime.strptime(str(issue_date.replace(tzinfo=None)) , "%Y-%m-%d %H:%M:%S")
+            resp_time = ack_date - issue_date
+            vendor_id = PurchasedOrder.objects.filter(id=pk)[0].vendor.id
+            v = Vendor.objects.filter(id=vendor_id)
+            total_order  = PurchasedOrder.objects.filter(vendor=vendor_id).count()
+            average_response_time = (v[0].average_response_time*total_order  + resp_time.days)/total_order
+            v.update(average_response_time = average_response_time)
+        return Response({"message": " acknowledged successfully"}, status=201)
+        
 
 

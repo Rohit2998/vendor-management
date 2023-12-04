@@ -8,6 +8,7 @@ urlpatterns = [
     path('vendor/<int:pk>/',  views.VendorAPIView.as_view(), name='vendor-delete'),
     path('purchase_orders/', views.PurchasedOrderAPIView.as_view(),name='purchase'),
     path('purchase_orders/<int:pk>/', views.PurchasedOrderAPIView.as_view(), name='purchase_orders-update'),
+    path('purchase_orders/<int:pk>/acknowledge', views.order_acknowledge,name='purchase-ack'),
 
 
 ]
