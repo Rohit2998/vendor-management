@@ -18,13 +18,13 @@ from django.contrib import admin
 from django.urls import path
 from django.contrib import admin
 from django.urls import path ,include
-from vendeo_management import views
-from vendeo_management import urls
+from api import views
+from api import urls
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('vendeo_management/',include('vendeo_management.urls')),
+    path('api/',include('api.urls')),
 
 ]
