@@ -24,6 +24,8 @@ pip install -r requirements.txt
 
 ```
 cd vendor
+python manage.py makemigrations
+python manage.py migrate
 python manage.py runserver
 ```
 command to run if program contains helper info
