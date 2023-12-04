@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Vendor , PurchasedOrder
+from .models import Vendor, PurchasedOrder
 
 admin.site.register(Vendor)
 admin.site.register(PurchasedOrder)
