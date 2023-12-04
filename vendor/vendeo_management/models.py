@@ -52,16 +52,13 @@ class PurchasedOrder(models.Model):
 def update_fields(sender, instance, created, **kwargs):
 
     if instance.status == 'completed':
-        vendor = instance.vendor
+        # import ipdb;ipdb.set_trace()
         rating = instance.quality_rating
         v = Vendor.objects.filter(id=instance.vendor_id)
         purchased_per_vendor = PurchasedOrder.objects.filter(vendor = instance.vendor_id).count()
         quality_rating_avg = (v[0].quality_rating_avg*(purchased_per_vendor-1)  + rating) / purchased_per_vendor
         v.update(quality_rating_avg=quality_rating_avg)
-        today_date = datetime.date.today()
         total_completed_order =  PurchasedOrder.objects.filter(vendor = instance.vendor_id, status = 'completed')
-        deleiver_date  = datetime.datetime.strptime(instance.delivery_date , '%Y-%m-%d')
-        delievered_order = PurchasedOrder.objects.filter(vendor = instance.vendor_id, status = 'completed')
         on_time = PurchasedOrder.objects.filter(vendor = instance.vendor_id, status = 'completed' ,  on_time = True)
         on_time_delivery_rate_new = ((on_time.count()) / total_completed_order.count())*100
         v.update(on_time_delivery_rate = on_time_delivery_rate_new)
