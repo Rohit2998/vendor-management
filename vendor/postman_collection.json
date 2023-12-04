@@ -1,0 +1,373 @@
+{
+	"info": {
+		"_postman_id": "e4e41979-5aec-4ccc-bb14-ddac224a5dee",
+		"name": "vendor",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24541130"
+	},
+	"item": [
+		{
+			"name": "vendor",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/vendor",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"vendor"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "4",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "vendor performance",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "vendor",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"vendor_name\" : \"vendor2\",\r\n    \"vendor_address\" :  \"bk sweets , delhi\",\r\n    \"vendor_contact\" : \"+919877495250\",\r\n    \"vendor_code\" : \"v02\"\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/vendor",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"vendor"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "vendor",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"vendor_name\" : \"vendor3_updated\",\r\n    \"vendor_address\" :  \"bk sweets , delhi\",\r\n    \"vendor_contact\" : \"+919877495259\",\r\n    \"vendor_code\" : \"v03\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/vendor/3/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"vendor",
+						"3",
+						""
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "vendor",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"vendor_name\" : \"vendor1\",\r\n    \"vendor_address\" :  \"bk sweets , delhi\",\r\n    \"vendor_contact\" : \"+919877495250\",\r\n    \"vendor_code\" : \"v02\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/vendor/1/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"vendor",
+						"1",
+						""
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "purchase",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"vendor_name\" : \"vendor1\",\r\n    \"vendor_address\" :  \"bk sweets , delhi\",\r\n    \"vendor_contact\" : \"+919877495250\",\r\n    \"vendor_code\" : \"v02\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/purchase_orders/7/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"purchase_orders",
+						"7",
+						""
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "purchaseorder",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"po_number\" : \"2\",\r\n    \"vendor\" :  2,\r\n    \"order_date\" : \"2023-12-31\",\r\n    \"delivery_date\" : \"2023-12-05\",\r\n    \"items\" : { \"pen\" : 1, \"notebook\":100},\r\n    \"quantity\" : 4,\r\n    \"quality_rating\": 4,\r\n    \"issue_date\" : \"2023-12-01T15:30:00\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/purchase_orders/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"purchase_orders",
+						""
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "purchaseorder",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"vendor\" :  2,\r\n    \"delivery_date\" : \"2023-12-05\",\r\n    \"items\" : { \"pen\" : 1, \"notebook\":100},\r\n    \"quantity\" : 4,\r\n    \"status\" : \"completed\",\r\n    \"quality_rating\": 5\r\n\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/purchase_orders/2/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"purchase_orders",
+						"2",
+						""
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "purchaseorder",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"vendor_name\" : \"vendor1\",\r\n    \"vendor_address\" :  \"bk sweets , delhi\",\r\n    \"vendor_contact\" : \"+919877495250\",\r\n    \"vendor_code\" : \"v02\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/purchase_orders/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"purchase_orders",
+						""
+					],
+					"query": [
+						{
+							"key": "vendor",
+							"value": "4",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "purchaseorder ack",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"acknowledge_date\" : \"2023-12-03T15:30:00\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/purchase_orders/2/acknowledge",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"purchase_orders",
+						"2",
+						"acknowledge"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

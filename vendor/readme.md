@@ -28,10 +28,17 @@ python manage.py runserver
 ```
 command to run if program contains helper info
 ```
-
+```
+### Import postman_collection in postman
+```
+for smooth use
+json file used : postman_collection.json 
+```
+```
 
 
 ## APIs Endpoint
+    please refer postman collection 
     ● POST /api/vendors/: Create a new vendor.
     ● GET /api/vendors/: List all vendors.
     ● GET /api/vendors/{vendor_id}/: Retrieve a specific vendor's details.
